@@ -1,0 +1,142 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  CONSUMER
+  OPERATOR
+  ADMIN
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum VehicleType {
+  SEDAN
+  SUV
+  TRUCK
+  MOTORCYCLE
+  OTHER
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  password  String
+  role      UserRole @default(CONSUMER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  bookings Booking[]
+  operator Operator?
+
+  @@map("users")
+}
+
+model Operator {
+  id           String  @id @default(cuid())
+  userId       String  @unique
+  businessName String
+  description  String?
+  address      String
+  city         String
+  state        String
+  zipCode      String
+  latitude     Float?
+  longitude    Float?
+  isActive     Boolean @default(true)
+  rating       Float   @default(0)
+  totalBookings Int    @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  services Service[]
+  bookings Booking[]
+
+  @@map("operators")
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  operatorId  String
+  name        String
+  description String
+  price       Int      // Price in cents
+  duration    Int      // Duration in minutes
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  operator Operator  @relation(fields: [operatorId], references: [id], onDelete: Cascade)
+  bookings Booking[]
+
+  @@map("services")
+}
+
+model Booking {
+  id           String        @id @default(cuid())
+  userId       String
+  serviceId    String
+  operatorId   String
+  status       BookingStatus @default(PENDING)
+  scheduledAt  DateTime
+  completedAt  DateTime?
+  totalAmount  Int           // Total amount in cents
+  
+  // Vehicle Information
+  vehicleType        VehicleType
+  vehicleMake        String?
+  vehicleModel       String?
+  vehicleYear        Int?
+  vehicleColor       String?
+  vehicleLicensePlate String?
+  
+  // Location Information
+  address   String
+  city      String
+  state     String
+  zipCode   String
+  latitude  Float?
+  longitude Float?
+  
+  // Additional Information
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  service  Service  @relation(fields: [serviceId], references: [id])
+  operator Operator @relation(fields: [operatorId], references: [id])
+
+  @@map("bookings")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@map("sessions")
+} 

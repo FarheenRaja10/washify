@@ -1,0 +1,44 @@
+{
+  "name": "washify-monorepo",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Washify: Car wash platform connecting consumers with operators",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:web\" \"npm run dev:backend\"",
+    "dev:web": "npm run dev --workspace=apps/web",
+    "dev:backend": "npm run dev --workspace=packages/backend",
+    "build": "npm run build --workspaces",
+    "build:web": "npm run build --workspace=apps/web",
+    "build:backend": "npm run build --workspace=packages/backend",
+    "start": "npm run start --workspaces",
+    "start:web": "npm run start --workspace=apps/web",
+    "start:backend": "npm run start --workspace=packages/backend",
+    "lint": "npm run lint --workspaces",
+    "lint:fix": "npm run lint:fix --workspaces",
+    "type-check": "npm run type-check --workspaces",
+    "test": "npm run test --workspaces",
+    "db:generate": "npm run generate --workspace=packages/db",
+    "db:push": "npm run push --workspace=packages/db",
+    "db:migrate": "npm run migrate --workspace=packages/db",
+    "db:studio": "npm run studio --workspace=packages/db",
+    "clean": "rm -rf node_modules && npm run clean --workspaces",
+    "postinstall": "npm run db:generate"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "concurrently": "^8.2.2",
+    "prettier": "^3.1.0",
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "keywords": ["car wash", "saas", "monorepo", "next.js", "react-native", "prisma"],
+  "author": "Washify Team",
+  "license": "MIT"
+} 
