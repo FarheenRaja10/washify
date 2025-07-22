@@ -12,23 +12,25 @@
     "migrate:deploy": "prisma migrate deploy",
     "migrate:reset": "prisma migrate reset",
     "studio": "prisma studio",
-    "seed": "tsx src/seed.ts",
+    "seed": "npx ts-node src/seed.ts",
     "lint": "eslint src --ext .ts",
     "lint:fix": "eslint src --ext .ts --fix",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@prisma/client": "^5.7.0",
-    "bcryptjs": "^2.4.3"
+    "@prisma/client": "^5.22.0",
+    "bcryptjs": "^2.4.3",
+    "esbuild": "^0.24.2",
+    "ts-node": "^10.9.2"
   },
   "devDependencies": {
-    "prisma": "^5.7.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20.10.0",
-    "tsx": "^4.6.0",
-    "typescript": "^5.3.0",
-    "eslint": "^8.55.0",
     "@typescript-eslint/eslint-plugin": "^6.13.0",
-    "@typescript-eslint/parser": "^6.13.0"
+    "@typescript-eslint/parser": "^6.13.0",
+    "eslint": "^8.55.0",
+    "prisma": "^5.22.0",
+    "tsx": "^4.6.0",
+    "typescript": "^5.3.0"
   }
-} 
+}

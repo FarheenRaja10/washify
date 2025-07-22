@@ -38,7 +38,17 @@
     "node": ">=18.0.0",
     "npm": ">=9.0.0"
   },
-  "keywords": ["car wash", "saas", "monorepo", "next.js", "react-native", "prisma"],
+  "keywords": [
+    "car wash",
+    "saas",
+    "monorepo",
+    "next.js",
+    "react-native",
+    "prisma"
+  ],
   "author": "Washify Team",
-  "license": "MIT"
-} 
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/client": "^6.12.0"
+  }
+}
